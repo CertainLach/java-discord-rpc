@@ -16,8 +16,11 @@
 
 package club.minnced.discord.rpc;
 
+import com.sun.jna.Memory;
+import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -47,173 +50,201 @@ typedef struct DiscordRichPresence {
  */
 public class DiscordRichPresence extends Structure
 {
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList(
-            "state",
-            "details",
-            "startTimestamp",
-            "endTimestamp",
-            "largeImageKey",
-            "largeImageText",
-            "smallImageKey",
-            "smallImageText",
-            "partyId",
-            "partySize",
-            "partyMax",
-            "matchSecret",
-            "joinSecret",
-            "spectateSecret",
-            "instance"
-    ));
+	private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList(
+			"state",
+			"details",
+			"startTimestamp",
+			"endTimestamp",
+			"largeImageKey",
+			"largeImageText",
+			"smallImageKey",
+			"smallImageText",
+			"partyId",
+			"partySize",
+			"partyMax",
+			"matchSecret",
+			"joinSecret",
+			"spectateSecret",
+			"instance"
+	));
 
-    /**
-     * The user's current party status.
-     * <br>Example: "Looking to Play", "Playing Solo", "In a Group"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String state;
+	/**
+	 * The user's current party status.
+	 * <br>Example: "Looking to Play", "Playing Solo", "In a Group"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	private Pointer state;
 
-    /**
-     * What the player is currently doing.
-     * <br>Example: "Competitive - Captain's Mode", "In Queue", "Unranked PvP"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String details;
+	public void setState(String state){
+		byte[] arr=state.getBytes(Charset.forName("UTF-8"));
+		this.state = new Memory(arr.length+1);
+		this.state.write(0,arr,0,arr.length);
+		this.state.setByte(arr.length, (byte) 0);
+	}
 
-    /**
-     * Unix timestamp (seconds) for the start of the game.
-     * <br>Example: 1507665886
-     */
-    public long startTimestamp;
+	/**
+	 * What the player is currently doing.
+	 * <br>Example: "Competitive - Captain's Mode", "In Queue", "Unranked PvP"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	private Pointer details;
 
-    /**
-     * Unix timestamp (seconds) for the start of the game.
-     * <br>Example: 1507665886
-     */
-    public long endTimestamp;
+	public void setDetails(String state){
+		byte[] arr=state.getBytes(Charset.forName("UTF-8"));
+		this.details = new Memory(arr.length+1);
+		this.details.write(0,arr,0,arr.length);
+		this.details.setByte(arr.length, (byte) 0);
+	}
 
-    /**
-     * Name of the uploaded image for the large profile artwork.
-     * <br>Example: "default"
-     * 
-     * <p><b>Maximum: 32 characters</b>
-     */
-    public String largeImageKey;
+	/**
+	 * Unix timestamp (seconds) for the start of the game.
+	 * <br>Example: 1507665886
+	 */
+	public long startTimestamp;
 
-    /**
-     * Tooltip for the largeImageKey.
-     * <br>Example: "Blade's Edge Arena", "Numbani", "Danger Zone"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String largeImageText;
+	/**
+	 * Unix timestamp (seconds) for the start of the game.
+	 * <br>Example: 1507665886
+	 */
+	public long endTimestamp;
 
-    /**
-     * Name of the uploaded image for the small profile artwork.
-     * <br>Example: "rogue"
-     * 
-     * <p><b>Maximum: 32 characters</b>
-     */
-    public String smallImageKey;
+	/**
+	 * Name of the uploaded image for the large profile artwork.
+	 * <br>Example: "default"
+	 *
+	 * <p><b>Maximum: 32 characters</b>
+	 */
+	public String largeImageKey;
 
-    /**
-     * Tooltip for the smallImageKey.
-     * <br>Example: "Rogue - Level 100"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String smallImageText;
+	/**
+	 * Tooltip for the largeImageKey.
+	 * <br>Example: "Blade's Edge Arena", "Numbani", "Danger Zone"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	private Pointer largeImageText;
 
-    /**
-     * ID of the player's party, lobby, or group.
-     * <br>Example: "ae488379-351d-4a4f-ad32-2b9b01c91657"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String partyId;
+	public void setLargeImageText(String largeImageText){
+		byte[] arr=largeImageText.getBytes(Charset.forName("UTF-8"));
+		this.largeImageText = new Memory(arr.length+1);
+		this.largeImageText.write(0,arr,0,arr.length);
+		this.largeImageText.setByte(arr.length, (byte) 0);
+	}
 
-    /**
-     * Current size of the player's party, lobby, or group.
-     * <br>Example: 1
-     */
-    public int partySize;
+	/**
+	 * Name of the uploaded image for the small profile artwork.
+	 * <br>Example: "rogue"
+	 *
+	 * <p><b>Maximum: 32 characters</b>
+	 */
+	public String smallImageKey;
 
-    /**
-     * Maximum size of the player's party, lobby, or group.
-     * <br>Example: 5
-     */
-    public int partyMax;
+	/**
+	 * Tooltip for the smallImageKey.
+	 * <br>Example: "Rogue - Level 100"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	private Pointer smallImageText;
 
-    /**
-     * Unique hashed string for Spectate and Join.
-     * Required to enable match interactive buttons in the user's presence.
-     * <br>Example: "MmhuZToxMjMxMjM6cWl3amR3MWlqZA=="
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String matchSecret;
+	public void setSmallImageText(String smallImageText){
+		byte[] arr=smallImageText.getBytes(Charset.forName("UTF-8"));
+		this.smallImageText = new Memory(arr.length+1);
+		this.smallImageText.write(0,arr,0,arr.length);
+		this.smallImageText.setByte(arr.length, (byte) 0);
+	}
 
-    /**
-     * Unique hashed string for Spectate button.
-     * This will enable the "Spectate" button on the user's presence if whitelisted.
-     * <br>Example: "MTIzNDV8MTIzNDV8MTMyNDU0"
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String joinSecret;
+	/**
+	 * ID of the player's party, lobby, or group.
+	 * <br>Example: "ae488379-351d-4a4f-ad32-2b9b01c91657"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	public String partyId;
 
-    /**
-     * Unique hashed string for chat invitations and Ask to Join.
-     * This will enable the "Ask to Join" button on the user's presence if whitelisted.
-     * <br>Example: "MTI4NzM0OjFpMmhuZToxMjMxMjM="
-     * 
-     * <p><b>Maximum: 128 characters</b>
-     */
-    public String spectateSecret;
+	/**
+	 * Current size of the player's party, lobby, or group.
+	 * <br>Example: 1
+	 */
+	public int partySize;
 
-    /**
-     * Marks the matchSecret as a game session with a specific beginning and end.
-     * Boolean value of 0 or 1.
-     * <br>Example: 1
-     */
-    public byte instance;
+	/**
+	 * Maximum size of the player's party, lobby, or group.
+	 * <br>Example: 5
+	 */
+	public int partyMax;
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-            return true;
-        if (!(o instanceof DiscordRichPresence))
-            return false;
-        DiscordRichPresence presence = (DiscordRichPresence) o;
-        return startTimestamp == presence.startTimestamp
-                && endTimestamp == presence.endTimestamp
-                && partySize == presence.partySize
-                && partyMax == presence.partyMax
-                && instance == presence.instance
-                && Objects.equals(state, presence.state)
-                && Objects.equals(details, presence.details)
-                && Objects.equals(largeImageKey, presence.largeImageKey)
-                && Objects.equals(largeImageText, presence.largeImageText)
-                && Objects.equals(smallImageKey, presence.smallImageKey)
-                && Objects.equals(smallImageText, presence.smallImageText)
-                && Objects.equals(partyId, presence.partyId)
-                && Objects.equals(matchSecret, presence.matchSecret)
-                && Objects.equals(joinSecret, presence.joinSecret)
-                && Objects.equals(spectateSecret, presence.spectateSecret);
-    }
+	/**
+	 * Unique hashed string for Spectate and Join.
+	 * Required to enable match interactive buttons in the user's presence.
+	 * <br>Example: "MmhuZToxMjMxMjM6cWl3amR3MWlqZA=="
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	public String matchSecret;
 
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(state, details, startTimestamp, endTimestamp, largeImageKey, largeImageText, smallImageKey,
-                smallImageText, partyId, partySize, partyMax, matchSecret, joinSecret, spectateSecret, instance);
-    }
+	/**
+	 * Unique hashed string for Spectate button.
+	 * This will enable the "Spectate" button on the user's presence if whitelisted.
+	 * <br>Example: "MTIzNDV8MTIzNDV8MTMyNDU0"
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	public String joinSecret;
 
-    @Override
-    protected List<String> getFieldOrder()
-    {
-        return FIELD_ORDER;
-    }
+	/**
+	 * Unique hashed string for chat invitations and Ask to Join.
+	 * This will enable the "Ask to Join" button on the user's presence if whitelisted.
+	 * <br>Example: "MTI4NzM0OjFpMmhuZToxMjMxMjM="
+	 *
+	 * <p><b>Maximum: 128 characters</b>
+	 */
+	public String spectateSecret;
+
+	/**
+	 * Marks the matchSecret as a game session with a specific beginning and end.
+	 * Boolean value of 0 or 1.
+	 * <br>Example: 1
+	 */
+	public byte instance;
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (!(o instanceof DiscordRichPresence))
+			return false;
+		DiscordRichPresence presence = (DiscordRichPresence) o;
+		return startTimestamp == presence.startTimestamp
+				&& endTimestamp == presence.endTimestamp
+				&& partySize == presence.partySize
+				&& partyMax == presence.partyMax
+				&& instance == presence.instance
+				&& Objects.equals(state, presence.state)
+				&& Objects.equals(details, presence.details)
+				&& Objects.equals(largeImageKey, presence.largeImageKey)
+				&& Objects.equals(largeImageText, presence.largeImageText)
+				&& Objects.equals(smallImageKey, presence.smallImageKey)
+				&& Objects.equals(smallImageText, presence.smallImageText)
+				&& Objects.equals(partyId, presence.partyId)
+				&& Objects.equals(matchSecret, presence.matchSecret)
+				&& Objects.equals(joinSecret, presence.joinSecret)
+				&& Objects.equals(spectateSecret, presence.spectateSecret);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(state, details, startTimestamp, endTimestamp, largeImageKey, largeImageText, smallImageKey,
+				smallImageText, partyId, partySize, partyMax, matchSecret, joinSecret, spectateSecret, instance);
+	}
+
+	@Override
+	protected List<String> getFieldOrder()
+	{
+		return FIELD_ORDER;
+	}
 }
