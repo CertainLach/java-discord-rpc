@@ -74,7 +74,7 @@ public class DiscordRichPresence extends Structure
 	 *
 	 * <p><b>Maximum: 128 characters</b>
 	 */
-	private Pointer state;
+	public Pointer state;
 
 	public void setState(String state){
 		byte[] arr=state.getBytes(Charset.forName("UTF-8"));
@@ -89,7 +89,7 @@ public class DiscordRichPresence extends Structure
 	 *
 	 * <p><b>Maximum: 128 characters</b>
 	 */
-	private Pointer details;
+	public Pointer details;
 
 	public void setDetails(String state){
 		byte[] arr=state.getBytes(Charset.forName("UTF-8"));
@@ -124,7 +124,7 @@ public class DiscordRichPresence extends Structure
 	 *
 	 * <p><b>Maximum: 128 characters</b>
 	 */
-	private Pointer largeImageText;
+	public Pointer largeImageText;
 
 	public void setLargeImageText(String largeImageText){
 		byte[] arr=largeImageText.getBytes(Charset.forName("UTF-8"));
@@ -147,7 +147,7 @@ public class DiscordRichPresence extends Structure
 	 *
 	 * <p><b>Maximum: 128 characters</b>
 	 */
-	private Pointer smallImageText;
+	public Pointer smallImageText;
 
 	public void setSmallImageText(String smallImageText){
 		byte[] arr=smallImageText.getBytes(Charset.forName("UTF-8"));
